@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _03.pokemonEvolution
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string,List<string>>pokemon=new Dictionary<string, List<string>>();
+            
+            while (true)
+            {
+                var input = Console.ReadLine().Split(new string[] { " -> " }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+                if (input[0] == "wubbalubbadubdub")
+                {
+                    break;
+                }
+                string name = input[0];
+                if (input.Length > 1)
+                {
+                    string type = input[1];
+                    int index = int.Parse(input[2]);
+                    if (!pokemon.ContainsKey(name))
+                    {
+                        pokemon[name] = new List<string>();
+                    }
+                    var pointsEvoType = type + " <-> " + index;
+                    pokemon[name].Add(pointsEvoType);
+                }
+                else
+                {
+                    if (pokemon.ContainsKey(name))
+                    {
+                        Console.WriteLine("# " + name);
+                        foreach (var poks in pokemon[name])
+                        {
+                            Console.WriteLine(poks);
+                        }
+                    }
+                }
+            }
+            foreach (var item in pokemon)
+            {
+                string name = item.Key;
+                Console.WriteLine("# " + name);
+                foreach (var typeAndNum in item.Value.OrderByDescending(x => int.Parse(x.Split(new []{" <-> "},StringSplitOptions.None).Skip(1).First())))
+                {
+                    Console.WriteLine(typeAndNum);
+                }
+            }
+        }
+    }
+}
